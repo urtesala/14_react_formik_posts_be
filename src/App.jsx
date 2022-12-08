@@ -1,12 +1,22 @@
-import './App.css'
-import './reset.css'
+import { Route } from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import AddPostPage from './pages/AddPostPage';
+import HomePage from './pages/HomePage';
+import './reset.css';
 
 function App() {
   return (
-    <div className="App container">
-      <h1>React</h1>
+    <div className='App container'>
+      <Header/>
+      <Route path={'/add-post'}>
+        <AddPostPage />
+      </Route>
+      <Route path={'/'} exact>
+        <HomePage />
+      </Route>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
