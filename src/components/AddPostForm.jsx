@@ -1,4 +1,15 @@
+import { useFormik } from 'formik';
+
 function AddPostForm(props) {
+  const formik = useFormik({
+    initialValues: {
+      image: '',
+      title: '',
+      body: '',
+      reactions: 0,
+      userId: 1,
+    },
+  });
   /*
     reikalingi input
     "image" text
