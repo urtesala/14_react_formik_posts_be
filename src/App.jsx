@@ -12,7 +12,7 @@ function App() {
     <div className='App container'>
       <Header />
       <Route path={'/post'}>
-        <PostsPage/>
+        <PostsPage />
       </Route>
       <Route path={'/add-post'}>
         <AddPostPage />

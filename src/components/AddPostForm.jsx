@@ -33,6 +33,17 @@ function AddPostForm(props) {
     }),
     onSubmit: (values) => {
       console.log('values ===', values);
+
+      
+      // alert(JSON.stringify(values, null, 2));
+
+      // sutvarkyti tags
+
+      // siusti duomenis su fetch
+      // sendDataFetch(values)
+      // jei sekmingai nusiuntem tai console log sekme
+      // mes norim naviguoti i PostsPage su react-router is AddPostsPage
+      // jei ne tai nesekme
     },
   });
   /*

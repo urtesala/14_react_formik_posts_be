@@ -24,7 +24,7 @@ function Header(props) {
         </NavLink>
         <NavLink
           className={'nav-link'}
-          to={'/posts'}
+          to={'/post'}
           activeClassName='currentPage'
         >
           All Posts
