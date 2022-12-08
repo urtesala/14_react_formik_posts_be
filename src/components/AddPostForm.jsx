@@ -9,6 +9,7 @@ function AddPostForm(props) {
       title: '',
       body: '',
       reactions: 0,
+      tags: '',
       userId: 1,
     },
     validationSchema: Yup.object().shape({

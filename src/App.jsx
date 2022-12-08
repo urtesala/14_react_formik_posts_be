@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import AddPostPage from './pages/AddPostPage';
 import HomePage from './pages/HomePage';
+import PostsPage from './pages/PostsPage';
 
 import './reset.css';
 
@@ -11,7 +12,7 @@ function App() {
     <div className='App container'>
       <Header />
       <Route path={'/post'}>
-        
+        <PostsPage/>
       </Route>
       <Route path={'/add-post'}>
         <AddPostPage />
