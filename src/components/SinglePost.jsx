@@ -1,3 +1,5 @@
+import { Link, useHistory } from "react-router-dom";
+
 const dummyPost = {
   id: 1,
   image:
@@ -10,6 +12,7 @@ const dummyPost = {
   reactions: 2,
 };
 function SinglePost(props) {
+  const history = useHistory();
   const p = props.post;
   // const { image, title } = props.post;
   return (
@@ -24,6 +27,13 @@ function SinglePost(props) {
           <li key={tag}>{tag}</li>
         ))}
       </ul>
+      {props.isSingle ? (
+        <button onClick={() => history.push('/posts')}>Go back</button>
+      ) : (
+        <Link to={`/posts/${p.id}`}>Read more &gt;&gt; </Link>
+      )}
+      <br />
+      <button>Delete post X</button>
     </article>
   );
 }
