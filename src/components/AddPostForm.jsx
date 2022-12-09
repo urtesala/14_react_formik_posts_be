@@ -47,11 +47,11 @@ function AddPostForm(props) {
     },
   });
   /*
-    reikalingi input
-    "image" text
-    "title" text
-    "body" textarea
-    "reactions" number 0
+   ^ reikalingi input
+   ^ "image" text
+   ^ "title" text
+    ^"body" textarea
+   ^ "reactions" number 0
     */
   //   console.log('formik.values ===', formik.values);
   //   console.log('formik.errors ===', formik.errors);
@@ -116,6 +116,22 @@ function AddPostForm(props) {
         />
         {formik.touched && formik.errors.reactions && (
           <p className='inputErroMsg'>{formik.errors.reactions}</p>
+        )}
+        <input
+          className={
+            formik.touched.tags && formik.errors.tags
+              ? 'inputErrorField'
+              : ''
+          }
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.tags}
+          type='number'
+          name='tags'
+          disabled
+        />
+        {formik.touched && formik.errors.userId && (
+          <p className='inputErroMsg'>{formik.errors.userId}</p>
         )}
         <input
           className={
