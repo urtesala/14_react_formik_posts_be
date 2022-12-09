@@ -1,18 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { sendFetch, stringTagsToArr } from '../helpers/helpers';
 import InputError from './InputError';
-
-function stringTagsToArr(str) {
-  //str =='html, css, node'
-  // ['html','css', 'node']
-  const tagArr = str.split(',');
-  //console.log('tagArr ===', tagArr);
-  const arrWithNoWhiteSpace = tagArr.map((tag) => tag.trim());
-  console.log('arrWithNoWhiteSpace ===', arrWithNoWhiteSpace);
-  const noEmptyTags = arrWithNoWhiteSpace.filter((tag) => tag.length);
-  console.log('noEmptyTags ===', noEmptyTags);
-  return noEmptyTags;
-}
 
 function AddPostForm(props) {
   const formik = useFormik({
@@ -55,6 +44,10 @@ function AddPostForm(props) {
 
       // siusti duomenis su fetch
       // sendDataFetch(values)
+      sendFetch(values).then((dataInJs) => {
+        console.log('dataInJs ===', dataInJs);
+      });
+
       // jei sekmingai nusiuntem tai console log sekme
       // mes norim naviguoti i PostsPage su react-router is AddPostsPage
       // jei ne tai nesekme
