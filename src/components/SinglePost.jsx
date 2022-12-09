@@ -21,7 +21,7 @@ function SinglePost(props) {
       <p className='reactions'>likes: {p.reactions}</p>
       <ul>
         {p.tags.map((tag) => (
-          <li key={tag.id}>{tag}</li>
+          <li key={tag}>{tag}</li>
         ))}
       </ul>
     </article>

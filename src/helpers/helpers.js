@@ -18,13 +18,20 @@ export function stringTagsToArr(str) {
 }
 
 export function sendFetch(whatToSend) {
-  const url = 'https://dummyjson.com/posts/add';
+  const url = 'http://localhost:8001/posts';
   return fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(whatToSend),
   })
     .then((res) => res.json())
-
     .catch(console.warn);
 }
+
+export function getPosts() {
+    const url = 'http://localhost:8001/posts';
+    return fetch(url)
+      .then((resp) => resp.json())
+      .catch((err) => console.warn('we have a problem', err));
+  }
+  

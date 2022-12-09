@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import SinglePost from '../components/SinglePost'
-
+import { useEffect, useState } from 'react';
+import SinglePost from '../components/SinglePost';
+import { getPosts } from '../helpers/helpers';
 
 function PostsPage(props) {
   // 3. PostsPage tik uzsikrovus psl siustis postus is public/db/database.json ir issaugoti state.
@@ -11,7 +11,7 @@ function PostsPage(props) {
   useEffect(() => {
     getPosts().then((dataInJs) => {
       console.log('dataInJs ===', dataInJs);
-      setPostsArr(dataInJs.posts);
+      setPostsArr(dataInJs);
     });
   }, []);
   //
@@ -23,17 +23,10 @@ function PostsPage(props) {
       <p>cia generuosim single card</p>
       <div className='grid'>
         {postsArr.map((pObj) => (
-          <SinglePost key={pObj.id} post={pObj}/>
+          <SinglePost key={pObj.id} post={pObj} />
         ))}
       </div>
     </div>
   );
 }
 export default PostsPage;
-
-function getPosts() {
-  const url = '/db/database.json';
-  return fetch(url)
-    .then((resp) => resp.json())
-    .catch((err) => console.warn('we have a problem', err));
-}
