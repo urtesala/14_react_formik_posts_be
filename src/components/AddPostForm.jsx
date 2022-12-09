@@ -30,11 +30,11 @@ function AddPostForm(props) {
         .integer()
         .required('Privalomas laukas'),
       userId: Yup.number().positive().min(1).max(5),
+      tags: Yup.string().min(3),
     }),
     onSubmit: (values) => {
       console.log('values ===', values);
 
-      
       // alert(JSON.stringify(values, null, 2));
 
       // sutvarkyti tags
@@ -119,20 +119,16 @@ function AddPostForm(props) {
         )}
         <input
           className={
-            formik.touched.tags && formik.errors.tags
-              ? 'inputErrorField'
-              : ''
+            formik.touched.tags && formik.errors.tags ? 'inputErrorField' : ''
           }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.tags}
-          type='number'
+          placeholder='Enter comma separated tags'
+          type='text'
           name='tags'
-          disabled
         />
-        {formik.touched && formik.errors.userId && (
-          <p className='inputErroMsg'>{formik.errors.userId}</p>
-        )}
+        <InputError error={formik.errors.tags} touch={formik.touched.tags} />
         <input
           className={
             formik.touched.userId && formik.errors.userId
@@ -146,9 +142,10 @@ function AddPostForm(props) {
           name='userId'
           disabled
         />
-        {formik.touched && formik.errors.userId && (
-          <p className='inputErroMsg'>{formik.errors.userId}</p>
-        )}
+        <InputError
+          error={formik.errors.userId}
+          touch={formik.touched.userId}
+        />
         <button type='submit'>Create</button>
       </form>
     </div>
