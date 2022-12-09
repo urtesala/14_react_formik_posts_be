@@ -2,14 +2,27 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import InputError from './InputError';
 
+function stringTagsToArr(str) {
+  //str =='html, css, node'
+  // ['html','css', 'node']
+  const tagArr = str.split(',');
+  //console.log('tagArr ===', tagArr);
+  const arrWithNoWhiteSpace = tagArr.map((tag) => tag.trim());
+  console.log('arrWithNoWhiteSpace ===', arrWithNoWhiteSpace);
+  const noEmptyTags = arrWithNoWhiteSpace.filter((tag) => tag.length);
+  console.log('noEmptyTags ===', noEmptyTags);
+  return noEmptyTags;
+}
+
 function AddPostForm(props) {
   const formik = useFormik({
     initialValues: {
-      image: '',
-      title: '',
-      body: '',
-      reactions: 0,
-      tags: '',
+      image: 'https://picsum.photos/id/1/200/300',
+      title: 'The main road',
+      body: 'lallalalla',
+      reactions: 4,
+      tagsStringInput: '',
+      tags: [],
       userId: 1,
     },
     validationSchema: Yup.object().shape({
@@ -30,7 +43,7 @@ function AddPostForm(props) {
         .integer()
         .required('Privalomas laukas'),
       userId: Yup.number().positive().min(1).max(5),
-      tags: Yup.string().min(3),
+      tagsStringInput: Yup.string().min(3),
     }),
     onSubmit: (values) => {
       console.log('values ===', values);
@@ -38,6 +51,7 @@ function AddPostForm(props) {
       // alert(JSON.stringify(values, null, 2));
 
       // sutvarkyti tags
+      values.tags = stringTagsToArr(values.tagsStringInput);
 
       // siusti duomenis su fetch
       // sendDataFetch(values)
@@ -119,16 +133,21 @@ function AddPostForm(props) {
         )}
         <input
           className={
-            formik.touched.tags && formik.errors.tags ? 'inputErrorField' : ''
+            formik.touched.tagsStringInput && formik.errors.tagsStringInput
+              ? 'inputErrorField'
+              : ''
           }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.tags}
-          placeholder='Enter comma separated tags'
+          value={formik.values.tagsStringInput}
+          placeholder='Enter comma separated tagsStringInput'
           type='text'
-          name='tags'
+          name='tagsStringInput'
         />
-        <InputError error={formik.errors.tags} touch={formik.touched.tags} />
+        <InputError
+          error={formik.errors.tagsStringInput}
+          touch={formik.touched.tagsStringInput}
+        />
         <input
           className={
             formik.touched.userId && formik.errors.userId
