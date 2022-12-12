@@ -19,10 +19,8 @@ export function stringTagsToArr(str) {
 
 const BASE_URL = 'http://localhost:8001';
 
-export function sendFetch(whatToSend) {
-  let url = 'https://dummyjson.com/posts/add';
-  url = 'http://localhost:8001/posts';
-  return fetch(url, {
+export function sendFetch(whatToSend, endpoint = 'posts') {
+  return fetch(`${BASE_URL}/${endpoint}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(whatToSend),
@@ -65,5 +63,11 @@ export function getPosts(endpoint = 'posts') {
   // const url = 'http://localhost:8001/posts?_sort=id&_order=desc';
   return fetch(`${BASE_URL}/${endpoint}?archived=false`)
     .then((resp) => resp.json())
-    .catch((err) => console.warn('some problem', err));
+    .catch((err) => console.warn('getPosts some problem', err));
+}
+
+export function getComments(postId, endpoint = 'comments') {
+  return fetch(`${BASE_URL}/${endpoint}?postId=${postId}&_sort=id&_order=desc`)
+    .then((resp) => resp.json())
+    .catch((err) => console.warn('getComments some problem', err));
 }

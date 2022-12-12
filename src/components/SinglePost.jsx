@@ -4,9 +4,14 @@ function SinglePost(props) {
   const history = useHistory();
   const p = props.post;
   // const { image, title } = props.post;
+
   return (
     <article className='singlePost card'>
-      {p.image && <img src={p.image} alt='post image' />}
+      {p.image && (
+        <Link to={`/posts/${p.id}`}>
+          <img src={p.image} alt='post image' />
+        </Link>
+      )}
       {!p.image && <img src='https://placehold.co/400' alt='no image' />}
       <h3>{p.title}</h3>
       <p className='singleBody'>{p.body}</p>

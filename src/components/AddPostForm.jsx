@@ -1,40 +1,33 @@
 import { useFormik } from 'formik';
-import { Link, Redirect, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { sendFetch, stringTagsToArr } from '../helpers/helpers';
 import InputError from './InputError';
+import { sendFetch, stringTagsToArr } from './../helpers/helpers';
+import { useHistory } from 'react-router-dom';
 
 function AddPostForm(props) {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
-      image: 'https://picsum.photos/id/1/200/300',
+      image: 'https://picsum.photos/id/17/200/300',
       title: 'The main road',
-      body: 'lallalalla',
+      body: 'Post about the main road',
       reactions: 4,
       tagsStringInput: '',
       tags: [],
       userId: 1,
+      archived: false,
     },
     validationSchema: Yup.object().shape({
       image: Yup.string()
+        .trim()
         .min(5, 'Ne maziau nei 5 simboliai')
         .max(120)
         .required('Privalomas laukas'),
-      title: Yup.string()
-        .min(4, 'Ne maziau nei 4 simboliai')
-        .max(20)
-        .required('Privalomas laukas'),
-      body: Yup.string()
-        .min(10, 'Ne maziau nei 10 simboliu')
-        .required('Privalomas laukas'),
-      reactions: Yup.number()
-        .positive()
-        .max(15)
-        .integer()
-        .required('Privalomas laukas'),
-      userId: Yup.number().positive().min(1).max(5),
+      title: Yup.string().min(4).max(20).required(),
+      body: Yup.string().min(10).required(), // string, min 10 simboliu, privalomas laukas
+      reactions: Yup.number().positive().integer().required().max(15), // skaicius, teigiamas, sveikasis skaicius, max 15 privalomas
       tagsStringInput: Yup.string().min(3),
+      userId: Yup.number().positive().max(5).required(), // skaicius, teigiamas, nuo 1 iki 5 privalomas
     }),
     onSubmit: (values) => {
       console.log('values ===', values);
@@ -45,31 +38,41 @@ function AddPostForm(props) {
       values.tags = stringTagsToArr(values.tagsStringInput);
 
       // siusti duomenis su fetch
-      // sendDataFetch(values)
       sendFetch(values).then((dataInJs) => {
         console.log('dataInJs ===', dataInJs);
-        //jei sekmingai sukuriam tai status 201 ir dataInJs tures id
+        // jei sekmingai sukurem tai status 201 ir dataInJs tures id
         if (dataInJs.id) {
-          //sekmingai sukurem post
-          confirm('post sukurtas');
+          // sekmingai sukurem post
+          confirm('postas sukurtas sekmingai');
+          // redirect to /posts kai sekmingai sukurta
           history.push('/posts');
         }
       });
 
+      // data visada bus promise jei be then ir/ar async await
+      // const data = sendFetch(values);
+      // console.log('data ===', data);
+
+      // sendDataFetch(values)
       // jei sekmingai nusiuntem tai console log sekme
       // mes norim naviguoti i PostsPage su react-router is AddPostsPage
       // jei ne tai nesekme
     },
   });
   /*
-   ^ reikalingi input
-   ^ "image" text
-   ^ "title" text
-    ^"body" textarea
-   ^ "reactions" number 0
-    */
-  //   console.log('formik.values ===', formik.values);
-  //   console.log('formik.errors ===', formik.errors);
+  reikalingi input
+  "image" text
+  "title" text
+  "body" textarea
+  "reactions" number 0
+  "userId"
+  */
+
+  // console.log('formik.values ===', formik.values);
+
+  // sudeti likusiems inputams klaidu atvaizdavima
+  // extra prideti inputui klase inputErrorField jei jame yra klaida
+  // console.log('formik.errors ===', formik.errors);
   // console.log('formik.touched ===', formik.touched);
   return (
     <div>
@@ -101,7 +104,8 @@ function AddPostForm(props) {
           placeholder='Title'
           name='title'
         />
-        {/* level2 error <InputError formik={formik} field={'title'} /> */}
+
+        {/* level2 error TODO: <InputError formik={formik} field={'title'} /> */}
         <InputError error={formik.errors.title} touch={formik.touched.title} />
         <textarea
           className={
@@ -113,7 +117,7 @@ function AddPostForm(props) {
           name='body'
           placeholder='Your text'
         ></textarea>
-        {formik.touched && formik.errors.body && (
+        {formik.touched.body && formik.errors.body && (
           <p className='inputErroMsg'>{formik.errors.body}</p>
         )}
         <input
@@ -129,19 +133,26 @@ function AddPostForm(props) {
           placeholder='Reactions'
           name='reactions'
         />
-        {formik.touched && formik.errors.reactions && (
+        {formik.touched.reactions && formik.errors.reactions && (
           <p className='inputErroMsg'>{formik.errors.reactions}</p>
         )}
+        {/* prideti dar viea inputa
+        text, jame validacija min 3 raides
+        jame vartotojas iraso tagus atskirtus kableliais
+        value="food, sport, jump up, buy smth"
+        mes padarom masyva su reikmem
+        ['food', 'sport', 'jump up', 'buy smth']
+        */}
         <input
           className={
             formik.touched.tagsStringInput && formik.errors.tagsStringInput
               ? 'inputErrorField'
               : ''
           }
+          placeholder='Enter comma separated tags'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.tagsStringInput}
-          placeholder='Enter comma separated tagsStringInput'
           type='text'
           name='tagsStringInput'
         />
@@ -150,21 +161,12 @@ function AddPostForm(props) {
           touch={formik.touched.tagsStringInput}
         />
         <input
-          className={
-            formik.touched.userId && formik.errors.userId
-              ? 'inputErrorField'
-              : ''
-          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.userId}
           type='number'
           name='userId'
           disabled
-        />
-        <InputError
-          error={formik.errors.userId}
-          touch={formik.touched.userId}
         />
         <button type='submit'>Create</button>
       </form>

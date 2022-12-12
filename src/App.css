@@ -36,6 +36,28 @@
   gap: 1rem;
 }
 
+.comment {
+  background-color: #dfdfdf;
+  border-bottom: 1px solid #000;
+  margin-bottom: 15px;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.comment_author {
+  font-size: 1.2rem;
+  margin-bottom: 0.4em;
+}
+
+.comment_date {
+  color: gray;
+}
+
+.unlisted {
+  list-style: none;
+  padding-left: 0;
+}
+
 @media screen and (max-width: 500px) {
   .grid {
     grid-template-columns: repeat(1, 1fr);

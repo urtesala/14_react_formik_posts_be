@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import AddCommentForm from '../components/comments/AddCommentForm';
+import CommentsList from '../components/comments/CommentsList';
 import SinglePost from '../components/SinglePost';
-import { getPosts } from '../helpers/helpers';
+import { getComments, getPosts } from './../helpers/helpers';
 
 function SinglePostPage(props) {
   // SinglePostPage
@@ -17,15 +19,29 @@ function SinglePostPage(props) {
 
   function getLatestPost() {
     getPosts(`posts/${postId}`).then((data) => {
-      console.log('data ===', data);
+      // console.log('data ===', data);
       setCurrentPost(data);
     });
   }
-  // nupiesti single posta
+
+  // Comments stuff
+  const [commentsArr, setCommentsArr] = useState([]);
+
+  useEffect(() => {
+    getComments(postId).then((commentsGot) => setCommentsArr(commentsGot));
+  }, []);
+
+  function handleNewComment() {
+    console.log('handleNewComment');
+    getComments(postId).then((commentsGot) => setCommentsArr(commentsGot));
+  }
+
   return (
     <div>
       <h1>SinglePostPage {postId}</h1>
       <SinglePost post={currentPost} isSingle />
+      <AddCommentForm onNewComment={handleNewComment} postId={postId} />
+      <CommentsList items={commentsArr} />
     </div>
   );
 }
