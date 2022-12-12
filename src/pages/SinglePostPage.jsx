@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AddCommentForm from '../components/comments/AddCommentForm';
 import CommentsList from '../components/comments/CommentsList';
 import SinglePost from '../components/SinglePost';
-import { getComments, getPosts } from './../helpers/helpers';
+import { getComments, getPosts } from '../helpers/helper';
 
 function SinglePostPage(props) {
   // SinglePostPage

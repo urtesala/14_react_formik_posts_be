@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import SinglePost from '../components/SinglePost';
-import { getPosts, sendDelete, sendDeletePatch } from './../helpers/helpers';
+import { getPosts, sendDelete, sendDeletePatch } from './../helpers/helper';
 
 function PostsPage(props) {
   // 3. PostsPage tik uzsikrovus psl siustis postus is public/db/database.json ir issaugoti state.

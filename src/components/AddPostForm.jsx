@@ -1,8 +1,10 @@
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import InputError from './InputError';
-import { sendFetch, stringTagsToArr } from './../helpers/helpers';
 import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { sendFetch, stringTagsToArr } from '../helpers/helper';
+import InputError from './InputError';
+
+
 
 function AddPostForm(props) {
   const history = useHistory();
