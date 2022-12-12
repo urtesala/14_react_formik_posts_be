@@ -28,9 +28,14 @@ function UsersPage(props) {
   const beOrFe = true ? filteredUsers : usersArr;
 
   // use reduce, map filter to get all different towns
-  const allDifferentTownsArr = usersArr;
+  
+//!
+  const sortByTown = usersArr.filter((uObj) =>
+    uObj.town.toLowerCase().includes(selectValue.toLowerCase())
+  );
 
-  console.log('usersArr ===', JSON.stringify(usersArr));
+  console.log('sortByTown ===', sortByTown);
+  // console.log('usersArr ===', JSON.stringify(usersArr));
 
   return (
     <div>
@@ -55,11 +60,22 @@ function UsersPage(props) {
         >
           <option value='london'>London</option>
           <option value='paris'>Paris</option>
+          <option value='neveronys'>Neveronys</option>
+          <option value='kaunas'>Kaunas</option>
+          <option value='capetown'>Capetown</option>
+          <option value='birmingam'>Birmingam</option>
         </select>
         <h3>Selected: {selectValue}</h3>
       </fieldset>
-      <ul className='unlisted grid'>
+
+      {/* <ul className='unlisted grid'>
         {beOrFe.map((uObj) => (
+          <SingleUser key={uObj.id} {...uObj} />
+        ))}
+      </ul> */}
+
+      <ul className='unlisted grid'>
+        {sortByTown.map((uObj) => (
           <SingleUser key={uObj.id} {...uObj} />
         ))}
       </ul>
