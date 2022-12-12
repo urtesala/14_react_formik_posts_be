@@ -1,20 +1,24 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
+import InputError from './components/InputError';
 import AddPostPage from './pages/AddPostPage';
 import HomePage from './pages/HomePage';
 import PostsPage from './pages/PostsPage';
 import SinglePostPage from './pages/SinglePostPage';
-
-import './reset.css';
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
     <div className='App container'>
       <Header />
+
       <Switch>
-        <Route path={'/posts/:{postId}'}>
+        <Route path={'/posts/:postId'}>
           <SinglePostPage />
+        </Route>
+        <Route path={'/users'}>
+          <UsersPage />
         </Route>
         <Route path={'/posts'}>
           <PostsPage />

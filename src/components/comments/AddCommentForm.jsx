@@ -1,63 +1,62 @@
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import InputError from '../InputError';
+import { sendFetch } from '../../helpers/helper';
 
 function AddCommentForm(props) {
   // init values for form: author, text, date, postId
+
+  // prideti comentaro validacijas:
+  // author: textas, ne maziau 4 raides, privalomas, (extra (kad nebutu skaiciu) )
+  // textas: min 10 simboliu, privalomas
+
+  // atvaizduoti klaidas po inputu ir textarea
+
   const formik = useFormik({
     initialValues: {
       author: '',
-      comment: '',
+      text: '',
       date: '',
       postId: props.postId,
     },
-    validationSchema: Yup.object().shape({
-      author: Yup.string()
-        .min(3, 'Ne maziau nei 3 simboliai')
-        .max(10)
-        .required('Privalomas laukas'),
-      comment: Yup.string()
-        .min(4, 'Ne maziau nei 4 simboliai')
-        .required('Privalomas laukas'),
-    }),
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
+      // values yra objektas su visom formiko reiksmem aprasytom initalValues
+      // submiting the form create timeStamp for the DATE
       values.date = new Date();
       console.log('values ===', values);
       sendFetch(values, 'comments').then((sendResult) => {
         console.log('sendResult ===', sendResult);
         // jei yra atsakyme id tai sekmingai sukurem comentara ir atnaujinam comentaru sarasa.
         if (sendResult.id) {
+          // sekmingai pridetas komentaras
           props.onNewComment();
+          // isvalyti formos laukus
+          resetForm();
+        } else {
+          // kazkas negerai nes neturim naujo comentaro id
+          console.warn('kazkas negerai nes neturim naujo comentaro id ');
         }
-        // isvalyti formos laukuus
       });
     },
   });
   // add formik to controll the form
 
-  // submiting the form create timeStamp for the DATE
-
   return (
     <div className='card'>
       <h2>Add a comment</h2>
-      <form onSubmit={formik.handleSubmit} className='card'>
+      <form onSubmit={formik.handleSubmit}>
         <input
           onChange={formik.handleChange}
           value={formik.values.author}
           type='text'
-          placeholder='Author'
           name='author'
+          placeholder='Author'
         />
-        <InputError error={formik.errors.image} touch={formik.touched.image} />
         <textarea
           onChange={formik.handleChange}
-          value={formik.values.comment}
-          type='text'
-          placeholder='Comment'
-          name='comment'
+          value={formik.values.text}
+          name='text'
+          placeholder='Your comment'
         ></textarea>
-        <InputError error={formik.errors.image} touch={formik.touched.image} />
-        <button type='submit'>Create</button>
+        <button type='submit'>Comment</button>
       </form>
     </div>
   );
